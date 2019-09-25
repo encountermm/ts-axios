@@ -8,15 +8,13 @@ const WebpackConfig = require('./webpack.config')
 const app = express()
 const compiler = webpack(WebpackConfig)
 
-app.use(
-  webpackDevMiddleware(compiler, {
-    publicPath: '/__build__/',
-    stats: {
-      colors: true,
-      chunks: false
-    }
-  })
-)
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: '/__build__/',
+  stats: {
+    colors: true,
+    chunks: false
+  }
+}))
 
 app.use(webpackHotMiddleware(compiler))
 
@@ -42,12 +40,12 @@ registerConfigRouter()
 
 app.use(router)
 
-const port = process.env.PORT || 9999
+const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`)
 })
 
-function registerSimpleRouter() {
+function registerSimpleRouter () {
   router.get('/simple/get', function(req, res) {
     res.json({
       msg: `hello world`
@@ -55,7 +53,7 @@ function registerSimpleRouter() {
   })
 }
 
-function registerBaseRouter() {
+function registerBaseRouter () {
   router.get('/base/get', function(req, res) {
     res.json(req.query)
   })
@@ -66,7 +64,7 @@ function registerBaseRouter() {
 
   router.post('/base/buffer', function(req, res) {
     let msg = []
-    req.on('data', chunk => {
+    req.on('data', (chunk) => {
       if (chunk) {
         msg.push(chunk)
       }
@@ -78,7 +76,7 @@ function registerBaseRouter() {
   })
 }
 
-function registerErrorRouter() {
+function registerErrorRouter () {
   router.get('/error/get', function(req, res) {
     if (Math.random() > 0.5) {
       res.json({
@@ -99,7 +97,7 @@ function registerErrorRouter() {
   })
 }
 
-function registerExtendRouter() {
+function registerExtendRouter () {
   router.get('/extend/get', function(req, res) {
     res.json({
       msg: 'hello world'
@@ -153,3 +151,4 @@ function registerConfigRouter() {
     res.json(req.body)
   })
 }
+

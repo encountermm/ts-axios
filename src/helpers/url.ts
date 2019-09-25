@@ -23,7 +23,6 @@ export function buildURL(url: string, params?: any): string {
     if (val === null || typeof val === 'undefined') {
       return
     }
-
     let values = []
     if (Array.isArray(val)) {
       values = val
@@ -31,10 +30,9 @@ export function buildURL(url: string, params?: any): string {
     } else {
       values = [val]
     }
-
     values.forEach(val => {
       if (isDate(val)) {
-        val = val.toString()
+        val = val.toISOString()
       } else if (isPlainObject(val)) {
         val = JSON.stringify(val)
       }
